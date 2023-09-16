@@ -1,16 +1,18 @@
-import time
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium import webdriver
 import easyocr
 import numpy as np
 import logging
 from PIL import Image
-import pyautogui
+from selenium.webdriver.common.keys import Keys
 
 
 class ViewHandler:
     def __init__(self, website_url):
-        self.driver = webdriver.Chrome()
+        options = webdriver.ChromeOptions()
+        options.add_argument("user-data-dir=C:\\Users\\bezaw\\PycharmProjects\\pythonProject\\user-profile")
+
+        self.driver = webdriver.Chrome(options=options)
         self.driver.set_window_size(1024, 768)
         self.website_url = website_url
         self.actions = ActionChains(self.driver)
@@ -20,16 +22,15 @@ class ViewHandler:
         self.driver.get(self.website_url)
         self.canvas = self.driver.find_element('id', 'unity-canvas')
 
-    def take_screenshot_for_text(self, text_to_find):
-        screenshot_path = f'{text_to_find}.png'
+    def take_screenshot_for_id(self, screenshot_id):
+        screenshot_path = f'{screenshot_id}.png'
         self.canvas.screenshot(screenshot_path)
-        print(f'take screenshot for text {text_to_find}')
+        print(f'take screenshot with id {screenshot_id}')
 
-    def find_text_coordinates_on_screenshot(self, text_to_find):
-        self.actions.move_by_offset(0, 0).click().perform()
-        logging.info(f"Trying to find: {text_to_find}")
+    def find_text_coordinates_on_screenshot(self, text_to_find, screenshot_id):
+        logging.info(f"Trying to find: {text_to_find} on {screenshot_id}.png")
 
-        screenshot_path = f'{text_to_find}.png'
+        screenshot_path = f'{screenshot_id}.png'
         screenshot = Image.open(screenshot_path)
         image_np = np.array(screenshot)
 
@@ -41,7 +42,7 @@ class ViewHandler:
 
         # Check if any of the recognized text contains the specified texts
         for item in text:
-            if text_to_find in item[1]:
+            if text_to_find.lower() in item[1].lower():
                 found_texts.append(text_to_find)
                 found_text_coordinates.append(item[0])
 
@@ -57,7 +58,15 @@ class ViewHandler:
             center_x, center_y = int(text_x + text_w / 2), int(text_y + text_h / 2)
             logging.info(f"Clicking on the center of the text: {found_texts[0]}")
             logging.info(f"Coordinates of that click: {center_x}, {center_y}")
-            self.actions.move_by_offset(center_x, center_y).click().perform()
+            self.actions.move_by_offset(center_x, center_y).perform()
+            self.actions.click().perform()
+            self.actions.click().perform()
+            self.actions.click().perform()
+            self.actions.click().perform()
+            self.actions.click().perform()
+            self.actions.click().perform()
+            self.actions.move_by_offset(-center_x, -center_y).perform()
 
-
-
+    def type_text(self, text_to_type):
+        self.actions.send_keys(text_to_type).perform()
+        self.actions.send_keys(Keys.RETURN).perform()

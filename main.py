@@ -3,7 +3,7 @@ import logging
 
 import pyautogui
 
-from config import website_url, texts_to_check
+from config import website_url, login, password
 
 from classes.ViewHandler import ViewHandler
 
@@ -20,15 +20,22 @@ def main():
     vh = ViewHandler(website_url)
     log_run_start()
 
-    # for text_to_check in texts_to_check:
-    vh.take_screenshot_for_text(text_to_find='Zagraj teraz')
-    vh.find_text_coordinates_on_screenshot(text_to_find='Zagraj teraz')
-    time.sleep(20)
+    time.sleep(3)
+    vh.take_screenshot_for_id(screenshot_id='Zagraj teraz')
+    vh.find_text_coordinates_on_screenshot(text_to_find='Zagraj teraz', screenshot_id='Zagraj teraz')
+    time.sleep(6)
 
-    # for text_to_check in texts_to_check:
-    vh.take_screenshot_for_text(text_to_find='Zaloquisie')
-    vh.find_text_coordinates_on_screenshot(text_to_find='Zaloquisie')
+    vh.take_screenshot_for_id(screenshot_id='Zaloqujsie')
+    vh.find_text_coordinates_on_screenshot(text_to_find='Zaloqujsie', screenshot_id='Zaloqujsie')
     time.sleep(5)
+
+    vh.take_screenshot_for_id(screenshot_id='logowanie')
+    vh.find_text_coordinates_on_screenshot(text_to_find='Billie Eillish', screenshot_id='logowanie')
+    time.sleep(2)
+    vh.type_text(text_to_type=login)
+    time.sleep(2)
+    vh.type_text(text_to_type=password)
+    time.sleep(60)
 
     end_time = time.time()
     duration = end_time - start_time
