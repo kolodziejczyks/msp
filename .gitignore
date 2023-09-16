@@ -1,4 +1,7 @@
 venv
 .idea
-canvas_screenshot.png
+screenshot.png
 automation.log
+*.png
+__pycache__
+classes/__pycache__
