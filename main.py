@@ -3,7 +3,7 @@ import logging
 
 import pyautogui
 
-from config import website_url, login, password
+from config import website_url, login, password, destinationLogin
 
 from classes.ViewHandler import ViewHandler
 
@@ -23,22 +23,60 @@ def main():
     time.sleep(3)
     vh.take_screenshot_for_id(screenshot_id='Zagraj teraz')
     vh.find_text_coordinates_on_screenshot(text_to_find='Zagraj teraz', screenshot_id='Zagraj teraz')
-    time.sleep(6)
+    time.sleep(3)
 
     vh.take_screenshot_for_id(screenshot_id='Zaloqujsie')
     vh.find_text_coordinates_on_screenshot(text_to_find='Zaloqujsie', screenshot_id='Zaloqujsie')
-    time.sleep(5)
+    # time.sleep(3)
 
-    vh.take_screenshot_for_id(screenshot_id='logowanie')
-    vh.find_text_coordinates_on_screenshot(text_to_find='Billie Eillish', screenshot_id='logowanie')
+    # pierwszy wynik na liscie zalogowanych
+    vh.click_on_coordinates(504, 295)
     time.sleep(2)
     vh.type_text(text_to_type=login)
     time.sleep(2)
     vh.type_text(text_to_type=password)
-    time.sleep(60)
+    time.sleep(22)
+
+    # przeklikanie sie przez intro
+    # vh.neutral_click()
+    # vh.neutral_click()
+    # vh.neutral_click()
+    # time.sleep(5)
+    # vh.neutral_click()
+    # vh.neutral_click()
+    # vh.neutral_click()
+    # time.sleep(5)
+
+    # wyszukanie i danie grafa
+    # profil
+    vh.click_on_coordinates(40, 40)
+    # friends
+    vh.click_on_coordinates(610, 290)
+    # time.sleep(5)
+    vh.single_click_on_coordinates(0, 0)
+    # vh.single_click_on_coordinates(968, 176)
+    # to pierwsze we friends popup
+    time.sleep(1)
+    vh.click_on_coordinates(790, 178)
+    # lupka
+    time.sleep(1)
+    vh.click_on_coordinates(893, 178)
+    # search input
+    time.sleep(2)
+    vh.click_on_coordinates(836, 226)
+    vh.type_text(text_to_type=destinationLogin)
+    time.sleep(3)
+    # pierwszy wynik na liście
+    vh.click_on_coordinates(723, 300)
+    time.sleep(3)
+    # danie grafa
+    vh.click_on_coordinates(617, 404)
+
+    time.sleep(30)
 
     end_time = time.time()
     duration = end_time - start_time
+    vh.take_screenshot_for_id(screenshot_id='finish')
     logging.info(f"Run completed in {duration:.2f} seconds")
 
 

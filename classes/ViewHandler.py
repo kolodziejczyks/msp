@@ -58,15 +58,27 @@ class ViewHandler:
             center_x, center_y = int(text_x + text_w / 2), int(text_y + text_h / 2)
             logging.info(f"Clicking on the center of the text: {found_texts[0]}")
             logging.info(f"Coordinates of that click: {center_x}, {center_y}")
-            self.actions.move_by_offset(center_x, center_y).perform()
-            self.actions.click().perform()
-            self.actions.click().perform()
-            self.actions.click().perform()
-            self.actions.click().perform()
-            self.actions.click().perform()
-            self.actions.click().perform()
-            self.actions.move_by_offset(-center_x, -center_y).perform()
+            ViewHandler.click_on_coordinates(self, center_x, center_y)
 
     def type_text(self, text_to_type):
         self.actions.send_keys(text_to_type).perform()
         self.actions.send_keys(Keys.RETURN).perform()
+
+    def neutral_click(self):
+        self.actions.click().perform()
+        self.actions.click().perform()
+        self.actions.click().perform()
+
+    def click_on_coordinates(self, x, y):
+        self.actions.move_by_offset(x, y).perform()
+        self.actions.click().perform()
+        self.actions.click().perform()
+        self.actions.click().perform()
+        self.actions.click().perform()
+        self.actions.click().perform()
+        self.actions.move_by_offset(-x, -y).perform()
+
+    def single_click_on_coordinates(self, x, y):
+        self.actions.move_by_offset(x, y).perform()
+        # self.actions.click().perform()
+        self.actions.move_by_offset(-x, -y).perform()
